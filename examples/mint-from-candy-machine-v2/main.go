@@ -14,7 +14,7 @@ import (
 	bin "github.com/gagliardetto/binary"
 
 	nftcandymachinev2 "github.com/gagliardetto/metaplex-go/clients/nft-candy-machine-v2"
-	nftcandymachinev2withWhitelist "github.com/talha4real/metaplexgo/clients/nft-candy-machine-v2"
+	nftcandymachinev2withWhitelist "github.com/<<USERNAME AND PROJECT NAME>>/clients/nft-candy-machine-v2"
 	token_metadata "github.com/gagliardetto/metaplex-go/clients/token-metadata"
 	"github.com/gagliardetto/solana-go"
 	atok "github.com/gagliardetto/solana-go/programs/associated-token-account"
