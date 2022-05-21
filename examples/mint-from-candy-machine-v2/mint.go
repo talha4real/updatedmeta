@@ -138,6 +138,8 @@ func mint(
 			Build(),
 	)
 
+	fmt.Println(instructions)
+
 	return sendTransaction(
 		cluster,
 		client,

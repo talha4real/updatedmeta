@@ -3,6 +3,7 @@
 package nft_candy_machine_v2
 
 import (
+	"fmt"
 	"errors"
 	ag_binary "github.com/gagliardetto/binary"
 	ag_solanago "github.com/gagliardetto/solana-go"
@@ -391,6 +392,10 @@ func NewMintNftInstruction(
 	clock ag_solanago.PublicKey,
 	recentBlockhashes ag_solanago.PublicKey,
 	instructionSysvarAccount ag_solanago.PublicKey) *MintNft {
+
+
+	fmt.Printf("HELLo")
+
 	return NewMintNftInstructionBuilder().
 		SetCreatorBump(creatorBump).
 		SetCandyMachineAccount(candyMachine).
