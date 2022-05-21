@@ -52,7 +52,7 @@ type MintNft struct {
 // NewMintNftInstructionBuilder creates a new `MintNft` instruction builder.
 func NewMintNftInstructionBuilder() *MintNft {
 	nd := &MintNft{
-		AccountMetaSlice: make(ag_solanago.AccountMetaSlice, 16),
+		AccountMetaSlice: make(ag_solanago.AccountMetaSlice, 19),
 	}
 	return nd
 }
@@ -239,6 +239,40 @@ func (inst *MintNft) GetInstructionSysvarAccountAccount() *ag_solanago.AccountMe
 	return inst.AccountMetaSlice.Get(15)
 }
 
+func (inst *MintNft) SetWhiteListToken(whitelistToken ag_solanago.PublicKey) *MintNft {
+	inst.AccountMetaSlice[16] = ag_solanago.Meta(whitelistToken)
+	return inst
+}
+
+func (inst *MintNft) GetWhiteListToken() *ag_solanago.AccountMeta {
+	return inst.AccountMetaSlice.Get(16)
+}
+
+
+
+func (inst *MintNft) SetMintWhitelist(mint2 ag_solanago.PublicKey) *MintNft {
+	inst.AccountMetaSlice[17] = ag_solanago.Meta(mint2)
+	return inst
+}
+
+func (inst *MintNft) GetMintWhitelist() *ag_solanago.AccountMeta {
+	return inst.AccountMetaSlice.Get(17)
+}
+
+
+func (inst *MintNft) SetBurnAuthority(whitelistBurnAuthority ag_solanago.PublicKey) *MintNft {
+	inst.AccountMetaSlice[18] = ag_solanago.Meta(whitelistBurnAuthority)
+	return inst
+}
+
+func (inst *MintNft) GetBurnAuthority() *ag_solanago.AccountMeta {
+	return inst.AccountMetaSlice.Get(18)
+}
+
+
+
+
+
 func (inst MintNft) Build() *Instruction {
 	return &Instruction{BaseVariant: ag_binary.BaseVariant{
 		Impl:   inst,
@@ -314,6 +348,15 @@ func (inst *MintNft) Validate() error {
 		if inst.AccountMetaSlice[15] == nil {
 			return errors.New("accounts.InstructionSysvarAccount is not set")
 		}
+		if inst.AccountMetaSlice[16] == nil {
+			return errors.New("accounts.whitelistToken is not set")
+		}
+		if inst.AccountMetaSlice[17] == nil {
+			return errors.New("accounts.mint2 is not set")
+		}
+		if inst.AccountMetaSlice[18] == nil {
+			return errors.New("accounts.whitelistBurnAuthority is not set")
+		}
 	}
 	return nil
 }
@@ -349,6 +392,9 @@ func (inst *MintNft) EncodeToTree(parent ag_treeout.Branches) {
 						accountsBranch.Child(ag_format.Meta("               clock", inst.AccountMetaSlice.Get(13)))
 						accountsBranch.Child(ag_format.Meta("   recentBlockhashes", inst.AccountMetaSlice.Get(14)))
 						accountsBranch.Child(ag_format.Meta("   instructionSysvar", inst.AccountMetaSlice.Get(15)))
+						accountsBranch.Child(ag_format.Meta("      whiteListToken", inst.AccountMetaSlice.Get(16)))
+						accountsBranch.Child(ag_format.Meta("       mintWhitelist", inst.AccountMetaSlice.Get(17)))
+						accountsBranch.Child(ag_format.Meta("       burnAuthority", inst.AccountMetaSlice.Get(18)))
 					})
 				})
 		})
@@ -391,10 +437,17 @@ func NewMintNftInstruction(
 	rent ag_solanago.PublicKey,
 	clock ag_solanago.PublicKey,
 	recentBlockhashes ag_solanago.PublicKey,
-	instructionSysvarAccount ag_solanago.PublicKey) *MintNft {
+	instructionSysvarAccount ag_solanago.PublicKey
+	whitelistToken ag_solanago.PublicKey
+	mint2 ag_solanago.PublicKey
+	whitelistBurnAuthority ag_solanago.PublicKey
+	
+	
+	
+	
+	) *MintNft {
 
 
-	fmt.Printf("HELLo")
 
 	return NewMintNftInstructionBuilder().
 		SetCreatorBump(creatorBump).
@@ -413,5 +466,8 @@ func NewMintNftInstruction(
 		SetRentAccount(rent).
 		SetClockAccount(clock).
 		SetRecentBlockhashesAccount(recentBlockhashes).
-		SetInstructionSysvarAccountAccount(instructionSysvarAccount)
+		SetInstructionSysvarAccountAccount(instructionSysvarAccount).
+		SetWhiteListToken(whitelistToken).
+		SetMintWhitelist(mint2).
+		SetBurnAuthority(whitelistBurnAuthority).
 }
